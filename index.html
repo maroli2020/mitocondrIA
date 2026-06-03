@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MitocôndrIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05100f;--bg2:#071a18;--panel:#0a2320;--panel2:#0d2b28;--line:#1a3d38;
+  --txt:#d8f0ed;--dim:#7aaea8;--faint:#3d6b65;
+  --lav:#3ecf8e;--mit:#f5a05a;--dem:#c084fc;--boy:#f2c94c;--kre:#38bdf8;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Hanken Grotesk',Georgia,sans-serif;line-height:1.6;min-height:100vh;padding:clamp(1rem,4vw,3rem);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.06;background-image:radial-gradient(ellipse 280px 120px at 20% 30%,#3ecf8e,transparent 70%),radial-gradient(ellipse 200px 90px at 70% 65%,#c084fc,transparent 70%),radial-gradient(ellipse 340px 140px at 85% 15%,#38bdf8,transparent 70%),radial-gradient(ellipse 180px 80px at 45% 85%,#f2c94c,transparent 70%)}
+.wrap{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+
+.mito-hero{position:absolute;right:0;top:-20px;width:200px;height:200px;opacity:.28;pointer-events:none;animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.28;transform:scale(1)}50%{opacity:.36;transform:scale(1.04)}}
+header{position:relative;padding:1rem 0 2.2rem;border-bottom:1px solid var(--line);margin-bottom:2.2rem}
+.eyebrow{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);margin-bottom:.4rem}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:900;font-size:clamp(2.4rem,7vw,4.8rem);line-height:.9;letter-spacing:-.02em;margin-bottom:.5rem}
+h1 .ia{color:var(--dem);font-style:italic}
+.sub{color:var(--dim);font-size:.92rem;max-width:50ch;margin-bottom:1.3rem}
+.sub b{color:var(--txt);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem}
+.pill{display:inline-flex;align-items:center;gap:.45rem;font-family:'JetBrains Mono',monospace,sans-serif;font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.33rem .72rem}
+.dot{width:7px;height:7px;border-radius:50%}
+
+.meta-section{margin-bottom:2.2rem}
+.meta-title{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:.9rem}
+.meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.8rem}
+.meta-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:.9rem 1rem;position:relative;overflow:hidden}
+.meta-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--mac)}
+.mc-icon{font-size:1.4rem;margin-bottom:.35rem;line-height:1}
+.mc-name{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:.95rem;color:var(--mac);margin-bottom:.12rem}
+.mc-desc{font-size:.76rem;color:var(--dim);line-height:1.44}
+.mc-tag{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.56rem;color:var(--faint);margin-top:.38rem;letter-spacing:.06em}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.2rem}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:border-color .3s,transform .3s cubic-bezier(.2,.8,.2,1)}
+.card:hover{border-color:var(--ac);transform:translateY(-3px)}
+.card.core{grid-column:1/-1}
+.card-head{padding:1.3rem 1.4rem .9rem;position:relative;border-bottom:1px solid var(--line)}
+.card-head::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac)}
+.num{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:.2rem}
+.name{font-family:'Fraunces',Georgia,serif;font-weight:900;font-size:1.6rem;color:var(--ac);line-height:1}
+.role{font-size:.78rem;color:var(--dim);margin-top:.14rem}
+.glyph{position:absolute;right:1.1rem;top:1.1rem;font-size:1.4rem;color:var(--ac);opacity:.65}
+.card-body{padding:.95rem 1.4rem}
+.tag{font-style:italic;font-family:'Fraunces',Georgia,serif;color:var(--txt);opacity:.8;font-size:.86rem;margin:.15rem 0 .85rem;padding-left:.75rem;border-left:2px solid var(--ac);line-height:1.4}
+.chips{display:flex;flex-wrap:wrap;gap:.32rem;margin-bottom:.85rem}
+.chip{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.57rem;color:var(--dim);background:#0000003d;border:1px solid var(--line);border-radius:6px;padding:.18rem .42rem}
+.blk{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ac);margin:.95rem 0 .45rem;opacity:.85}
+.desc{font-size:.84rem;color:var(--dim);line-height:1.55}
+.desc strong{color:var(--txt);font-weight:600}
+.ai-box{background:#00000033;border:1px solid var(--line);border-radius:10px;padding:.65rem .8rem}
+.ai-row{display:flex;gap:.5rem;font-size:.8rem;color:var(--dim);padding:.22rem 0}
+.ai-row .k{color:var(--ac);flex:0 0 auto;font-family:'JetBrains Mono',monospace,sans-serif;font-size:.86em;min-width:54px}
+
+/* API KEY BANNER */
+.apikey-banner{background:var(--panel);border:1px solid var(--boy);border-radius:14px;padding:1rem 1.2rem;margin-bottom:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.apikey-banner .ak-label{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--boy);white-space:nowrap}
+.apikey-banner .ak-note{font-size:.78rem;color:var(--dim);flex:1;min-width:180px}
+.ak-inp{flex:1;min-width:220px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--txt);font-family:'JetBrains Mono',monospace,sans-serif;font-size:.74rem;padding:.42rem .65rem;outline:none;transition:border-color .2s}
+.ak-inp:focus{border-color:var(--boy)}
+.ak-inp::placeholder{color:var(--faint)}
+.ak-save{background:var(--boy);color:#1a1000;border:none;border-radius:8px;padding:.42rem .85rem;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Hanken Grotesk',sans-serif}
+.ak-save:hover{opacity:.85}
+.ak-status{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.62rem;color:var(--lav);display:none}
+.ak-status.show{display:inline}
+
+/* ATTACHMENTS */
+.attach-section{margin-top:.95rem}
+.attach-label{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:.5rem}
+.attach-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.55rem}
+.att-btn{display:inline-flex;align-items:center;gap:.38rem;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.4rem .7rem;color:var(--dim);font-size:.76rem;font-family:'Hanken Grotesk',sans-serif;transition:border-color .2s,color .2s;white-space:nowrap}
+.att-btn:hover{border-color:var(--ac);color:var(--ac)}
+.att-btn svg{flex-shrink:0;opacity:.7}
+.link-row{display:none;align-items:center;gap:.4rem;margin-bottom:.5rem}
+.link-row.open{display:flex}
+.link-input{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);font-family:'JetBrains Mono',monospace,sans-serif;font-size:.74rem;padding:.42rem .65rem;outline:none;transition:border-color .2s}
+.link-input:focus{border-color:var(--ac)}
+.link-input::placeholder{color:var(--faint)}
+.link-add{background:var(--ac);color:#08180f;border:none;border-radius:7px;padding:.42rem .7rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:'Hanken Grotesk',sans-serif}
+.link-add:hover{opacity:.85}
+.attach-pills{display:flex;flex-wrap:wrap;gap:.35rem;min-height:0}
+.a-pill{display:inline-flex;align-items:center;gap:.35rem;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.3rem .6rem;font-size:.72rem;color:var(--dim);max-width:220px}
+.a-pill .a-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0}
+.a-pill .a-type{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.56rem;color:var(--ac);flex-shrink:0}
+.a-pill .a-del{cursor:pointer;color:var(--faint);font-size:.9rem;line-height:1;flex-shrink:0;transition:color .2s;border:none;background:none;padding:0}
+.a-pill .a-del:hover{color:#f87171}
+
+/* CHAT */
+.chat-section{border-top:1px solid var(--line);margin-top:.95rem;padding-top:.85rem}
+.chat-label{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:.55rem}
+.msgs{display:flex;flex-direction:column;gap:.45rem;max-height:260px;overflow-y:auto;margin-bottom:.65rem;padding-right:3px}
+.msgs::-webkit-scrollbar{width:5px}.msgs::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.msg{padding:.5rem .7rem;border-radius:10px;font-size:.8rem;line-height:1.52;max-width:92%}
+.msg.user{background:var(--ac);color:#08180f;align-self:flex-end;font-weight:500;border-radius:10px 10px 2px 10px}
+.msg.bot{background:var(--panel);color:var(--txt);border:1px solid var(--line);align-self:flex-start;border-radius:10px 10px 10px 2px}
+.msg.bot .ntag{font-family:'JetBrains Mono',monospace,sans-serif;font-size:.56rem;color:var(--ac);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.18rem}
+.msg.thinking{opacity:.45;font-style:italic}
+.chat-form{display:flex;gap:.45rem;align-items:flex-end}
+.chat-input{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--txt);font-family:'Hanken Grotesk',sans-serif;font-size:.82rem;padding:.55rem .75rem;resize:none;outline:none;min-height:38px;max-height:110px;transition:border-color .2s}
+.chat-input:focus{border-color:var(--ac)}
+.chat-input::placeholder{color:var(--faint)}
+.send-btn{background:var(--ac);color:#08180f;border:none;border-radius:9px;padding:.55rem .85rem;font-size:.78rem;font-weight:700;font-family:'Hanken Grotesk',sans-serif;cursor:pointer;transition:opacity .2s;min-height:38px}
+.send-btn:hover{opacity:.85}
+.send-btn:disabled{opacity:.35;cursor:not-allowed}
+.examples-row{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.55rem}
+.ex-chip{cursor:pointer;background:#00000033;border:1px solid var(--line);border-radius:7px;padding:.28rem .52rem;color:var(--dim);font-size:.74rem;font-family:'Hanken Grotesk',sans-serif;transition:border-color .2s,color .2s;text-align:left}
+.ex-chip:hover{border-color:var(--ac);color:var(--txt)}
+.prompt-toggle{cursor:pointer;background:transparent;border:1px solid var(--line);color:var(--faint);font-family:'JetBrains Mono',monospace,sans-serif;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;border-radius:7px;padding:.36rem .68rem;margin-top:.65rem;transition:border-color .2s,color .2s}
+.prompt-toggle:hover{border-color:var(--ac);color:var(--ac)}
+.sys-pre{display:none;margin-top:.65rem;background:#020d0b;border:1px solid var(--line);border-radius:10px;padding:.85rem;font-family:'JetBrains Mono',monospace,sans-serif;font-size:.68rem;line-height:1.55;color:var(--dim);white-space:pre-wrap;max-height:260px;overflow:auto;cursor:copy}
+.sys-pre.open{display:block}
+.sys-pre::-webkit-scrollbar{width:5px}.sys-pre::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+
+footer{margin-top:2.8rem;padding-top:1.6rem;border-top:1px solid var(--line);text-align:center}
+.flogo{font-family:'Fraunces',Georgia,serif;font-weight:900;font-size:1.4rem}
+.flogo .ia{color:var(--dem);font-style:italic}
+.fsub{color:var(--dim);font-size:.8rem;margin-top:.2rem}
+.fnote{color:var(--faint);font-size:.72rem;max-width:54ch;margin:.7rem auto 0}
+
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--dem);color:#1a0033;font-weight:700;font-size:.78rem;padding:.55rem 1.1rem;border-radius:999px;transition:transform .3s cubic-bezier(.2,.9,.2,1);z-index:9999}
+#toast.show{transform:translateX(-50%) translateY(0)}
+input[type=file]{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <svg class="mito-hero" viewBox="0 0 200 200" fill="none">
+    <ellipse cx="100" cy="100" rx="90" ry="56" stroke="#3ecf8e" stroke-width="2.5" opacity=".6"/>
+    <ellipse cx="100" cy="100" rx="70" ry="40" stroke="#c084fc" stroke-width="1.8" opacity=".5"/>
+    <path d="M42 100 q12-24 24 0 t24 0 t24 0 t24 0" stroke="#f2c94c" stroke-width="2" fill="none" opacity=".7"/>
+    <path d="M42 106 q12 24 24 0 t24 0 t24 0 t24 0" stroke="#38bdf8" stroke-width="1.6" fill="none" opacity=".5"/>
+    <circle cx="58" cy="82" r="3.5" fill="#f5a05a" opacity=".7"/><circle cx="82" cy="72" r="3.5" fill="#f5a05a" opacity=".7"/>
+    <circle cx="106" cy="70" r="3.5" fill="#f5a05a" opacity=".7"/><circle cx="130" cy="76" r="3.5" fill="#f5a05a" opacity=".7"/>
+    <circle cx="152" cy="87" r="3.5" fill="#f5a05a" opacity=".7"/>
+    <circle cx="80" cy="95" r="2" fill="#3ecf8e" opacity=".5"/><circle cx="100" cy="90" r="2" fill="#3ecf8e" opacity=".5"/>
+    <circle cx="122" cy="97" r="2" fill="#3ecf8e" opacity=".5"/><circle cx="92" cy="108" r="2" fill="#3ecf8e" opacity=".5"/>
+    <circle cx="114" cy="110" r="2" fill="#3ecf8e" opacity=".5"/>
+  </svg>
+  <div class="eyebrow">Sistema de Agentes · LBRE · IBqM · UFRJ</div>
+  <h1>mitocôndr<span class="ia">IA</span></h1>
+  <p class="sub">Assistente de pesquisa do <b>Prof. Marcus F. Oliveira</b> — Professor Titular do IBqM/UFRJ. Cinco agentes especializados em bioenergética e metabolismo mitocondrial.</p>
+  <div class="legend">
+    <span class="pill"><span class="dot" style="background:var(--lav)"></span>Lavoisier · ensino</span>
+    <span class="pill"><span class="dot" style="background:var(--mit)"></span>Mitchell · orientação</span>
+    <span class="pill"><span class="dot" style="background:var(--dem)"></span>De Meis · pesquisa</span>
+    <span class="pill"><span class="dot" style="background:var(--boy)"></span>Boyer · laboratório</span>
+    <span class="pill"><span class="dot" style="background:var(--kre)"></span>Krebs · administrativo</span>
+  </div>
+</header>
+
+<!-- API KEY BANNER -->
+<div class="apikey-banner">
+  <span class="ak-label">🔑 API Key</span>
+  <span class="ak-note">Insira sua chave Anthropic para ativar os agentes. Fica apenas na memória do navegador, nunca é salva.</span>
+  <input class="ak-inp" id="akInp" type="password" placeholder="sk-ant-…" autocomplete="off"/>
+  <button class="ak-save" id="akSave">Salvar</button>
+  <span class="ak-status" id="akStatus">✓ ativa</span>
+</div>
+
+<div class="meta-section">
+  <div class="meta-title">Contexto científico do laboratório</div>
+  <div class="meta-grid">
+    <div class="meta-card" style="--mac:var(--lav)"><div class="mc-icon">⚡</div><div class="mc-name">Fosforilação oxidativa</div><div class="mc-desc">Complexos I–IV bombeiam H⁺; ATP sintase converte o gradiente em ATP.</div><div class="mc-tag">Complexos I · II · III · IV · V</div></div>
+    <div class="meta-card" style="--mac:var(--dem)"><div class="mc-icon">🔄</div><div class="mc-name">Lançadeiras redox</div><div class="mc-desc">Malato–aspartato e glicerol-fosfato transferem equivalentes redutores para a matriz.</div><div class="mc-tag">Malato–aspartato · Glicerol-fosfato</div></div>
+    <div class="meta-card" style="--mac:var(--kre)"><div class="mc-icon">🔃</div><div class="mc-name">Ciclo de Krebs (TCA)</div><div class="mc-desc">Oito reações oxidam acetil-CoA gerando NADH, FADH₂, GTP e CO₂.</div><div class="mc-tag">Acetil-CoA · NADH · FADH₂ · GTP</div></div>
+    <div class="meta-card" style="--mac:var(--boy)"><div class="mc-icon">🦟</div><div class="mc-name">Metabolismo em insetos</div><div class="mc-desc">Músculo de voo de Drosophila, T. molitor e H. illucens como modelos de bioconversão.</div><div class="mc-tag">Drosophila · T. molitor · H. illucens</div></div>
+    <div class="meta-card" style="--mac:var(--mit)"><div class="mc-icon">🧬</div><div class="mc-name">Biologia redox</div><div class="mc-desc">ROS mitocondrial como sinal; antioxidantes SOD, catalase, Trx, Prx.</div><div class="mc-tag">ROS · SOD · Catalase · Trx · Prx</div></div>
+  </div>
+</div>
+
+<div class="grid" id="agentGrid"></div>
+
+<footer>
+  <div class="flogo">mitocôndr<span class="ia">IA</span></div>
+  <div class="fsub">LBRE · Instituto de Bioquímica Médica Leopoldo de Meis · UFRJ</div>
+  <div class="fnote">Desenvolvido para o <b>Prof. Marcus Fernandes de Oliveira</b>, Professor Titular do IBqM/UFRJ, líder do LBRE e do Projeto L.I.M.P.A.</div>
+</footer>
+</div>
+<div id="toast"></div>
+
+<script>
+/* ── API key ── */
+let API_KEY='';
+const akInp=document.getElementById('akInp');
+const akStatus=document.getElementById('akStatus');
+document.getElementById('akSave').addEventListener('click',()=>{
+  const v=akInp.value.trim();
+  if(!v.startsWith('sk-')){showToast('Chave inválida — deve começar com sk-');return;}
+  API_KEY=v;
+  akStatus.classList.add('show');
+  akInp.value='••••••••••••••••';
+  showToast('Chave salva ✓');
+});
+
+const AGENTS=[
+  {id:'lavoisier',num:'01',area:'ensino',name:'LAVOISIER',role:'Docência & avaliação',glyph:'▲',ac:'var(--lav)',
+   tag:'"Nada se cria, tudo se transforma — inclusive o aluno."',
+   chips:['BQM129','Revisão pelos Pares','SIGA','Notas','São Bento'],
+   desc:'Apoio à <strong>BQM129 (Bioenergética e Metabolismo)</strong> e à disciplina de pós-grad de <strong>Revisão pelos Pares</strong>. Geração de questões, rubricas e material didático. Validação de planilhas de notas e apoio ao fluxo <strong>SIGA/UFRJ</strong>.',
+   ai:[{k:'TRI',v:'calibração de itens por Teoria de Resposta ao Item.'},{k:'NLP',v:'rubrica automática e feedback formativo.'},{k:'ETL',v:'conferência de planilhas antes do SIGA.'}],
+   examples:['Gere 8 questões sobre fosforilação oxidativa (TRI: 3 fáceis / 3 médias / 2 difíceis).','Monte rubrica para o seminário de Revisão pelos Pares.','Confira esta planilha e aponte inconsistências antes do SIGA.'],
+   sys:`Você é LAVOISIER, agente de ensino do MitocôndrIA, a serviço do Prof. Marcus F. Oliveira (IBqM/UFRJ).\nEscopo: BQM129; disciplina Revisão pelos Pares; geração de questões, planos, rubricas; validação de planilhas e apoio ao SIGA.\nIA: TRI (itens), NLP (avaliação formativa), ETL (planilhas).\nNunca invente referências; planilhas sempre para revisão humana. Responda em português.`},
+  {id:'mitchell',num:'02',area:'orientação',name:'MITCHELL',role:'Fomento & carreira',glyph:'⇌',ac:'var(--mit)',
+   tag:'"Todo gradiente bem orientado vira trabalho útil."',
+   chips:['CNPq','FAPERJ','CAPES','PBBC','IC→PD'],
+   desc:'Orientação e captação em todos os níveis — IC, mestrado, doutorado, pós-doc. Cobre <strong>CNPq</strong> (PIBIC, PQ, Universal), <strong>FAPERJ</strong> (Nota 10, JCNE, Temático), <strong>CAPES</strong> (PDSE, PrInt), plataformas <strong>UFRJ/IBqM/PBBC</strong>.',
+   ai:[{k:'EMBED',v:'matching semântico perfil×edital, ranking de aderência.'},{k:'SCHED',v:'otimizador de cronograma com Gantt e marcos.'},{k:'RULES',v:'monitor de prazos com alertas de fomento.'}],
+   examples:['Qual edital encaixa para doutorando 2º ano em bioenergética de insetos?','Monte cronograma de tese de 48 meses com marcos e Gantt.','Liste prazos FAPERJ e CNPq dos próximos 90 dias.'],
+   sys:`Você é MITCHELL, agente de orientação do MitocôndrIA, a serviço do Prof. Marcus F. Oliveira (IBqM/UFRJ).\nEscopo: IC, mestrado, doutorado, pós-doc. Fontes: CNPq, FAPERJ, CAPES, UFRJ/SIGA, IBqM/PBBC.\nIA: recomendador semântico, otimizador de cronograma, monitor de prazos.\nNunca invente prazos. Responda em português.`},
+  {id:'demeis',num:'03',area:'núcleo · pesquisa',name:'DE MEIS',role:'Hipótese → publicação',glyph:'◆',ac:'var(--dem)',core:true,
+   tag:'"Hipótese, desenho, execução, publicação — e o calor da reação."',
+   chips:['L.I.M.P.A.','Drosophila','Lançadeiras redox','Redação científica','PubMed semanal','Robin · Co-Scientist · ERA'],
+   desc:'Ciclo científico completo. Projetos: <strong>L.I.M.P.A.</strong> (T. molitor + H. illucens); <strong>Mitochondrial Redox Shuttles and Stress Adaptation in Drosophila melanogaster</strong> — lançadeiras malato–aspartato e glicerol-fosfato sob estresse tecido-específico.',
+   ai:[{k:'WRITE+RAG',v:'redação científica com recuperação aumentada na literatura do grupo.'},{k:'REDOX',v:'modelagem de fluxos das lançadeiras e análise O2k.'},{k:'PUBMED',v:'busca semanal automatizada (E-utilities/Biopython).'},{k:'STACK',v:'integração Robin, Co-Scientist e ERA.'}],
+   examples:['Escreva o parágrafo de introdução ligando lançadeiras redox e adaptação em Drosophila.','Gere o script Biopython PubMed: "mitochondria" AND "insect" (últimos 7 dias).','Desenhe o experimento O2k para comparar lançadeira glicerol-fosfato entre tecidos.'],
+   sys:`Você é DE MEIS, agente-núcleo de pesquisa do MitocôndrIA, a serviço do Prof. Marcus F. Oliveira (IBqM/UFRJ).\nProjetos: L.I.M.P.A. (T. molitor + H. illucens); Mitochondrial Redox Shuttles (Drosophila melanogaster).\nIA: redação+RAG, modelagem lançadeiras, O2k, Robin/Co-Scientist/ERA, PubMed E-utilities.\nNUNCA invente referências ou DOIs. Responda em português.`},
+  {id:'boyer',num:'04',area:'laboratório',name:'BOYER',role:'Gestão operacional',glyph:'⚙',ac:'var(--boy)',
+   tag:'"O rotor gira; a bancada também precisa girar redondo."',
+   chips:['Oroboros O2k','SOPs','NR-32','IBAMA/SISPASS','CEUA','SIGECON'],
+   desc:'SOPs incluindo <strong>Oroboros O2k</strong> e isolamento mitocondrial; biossegurança NR-32/ANVISA; colônias de insetos (IBAMA/SISPASS); ética animal CEUA; compras SIGECON; controle de <strong>reagentes críticos</strong> (rotenona, antimicina A, FCCP, Amplex Red).',
+   ai:[{k:'EOQ',v:'inventário com ponto de reposição e alertas de validade.'},{k:'PdM',v:'manutenção preditiva do O2k e equipamentos críticos.'},{k:'ANOM',v:'detecção de anomalias em séries de respirometria.'}],
+   examples:['Calcule ponto de reposição e EOQ do Amplex Red para o consumo mensal.','Escreva o SOP de isolamento de mitocôndrias de músculo de voo para o O2k.','Monte o checklist de manutenção trimestral do Oroboros O2k.'],
+   sys:`Você é BOYER, agente de laboratório do MitocôndrIA, a serviço do Prof. Marcus F. Oliveira (IBqM/UFRJ).\nEscopo: SOPs, Oroboros O2k, NR-32/ANVISA, colônias (IBAMA/SISPASS), CEUA, SIGECON, reagentes críticos.\nIA: EOQ de inventário, manutenção preditiva, detecção de anomalias.\nPriorizar segurança e conformidade. Responda em português.`},
+  {id:'krebs',num:'05',area:'administrativo',name:'KREBS',role:'Burocracia recorrente',glyph:'↺',ac:'var(--kre)',
+   tag:'"As voltas do ciclo que mantêm tudo funcionando."',
+   chips:['UFRJ','CCS','IBqM','Lattes','ORCID','Transparência'],
+   desc:'Preenchimento automático de <strong>e-mails, formulários e planilhas</strong> reutilizando dados públicos (Lattes, ORCID, Portal da Transparência). Prepara minutas — você sempre revisa e envia.',
+   ai:[{k:'RPA',v:'automação de formulários e planilhas com mapeamento de campos.'},{k:'PARSE',v:'extração de Lattes/ORCID (produção, vínculos, projetos).'},{k:'DRAFT',v:'minutas de e-mail e ofícios por modelo.'}],
+   examples:['Preencha o relatório de atividades docentes do IBqM com meus dados do Lattes.','Redija e-mail formal ao CCS solicitando prorrogação de prazo.','Monte a planilha de produção bibliográfica dos últimos 5 anos pelo ORCID.'],
+   sys:`Você é KREBS, agente administrativo do MitocôndrIA, a serviço do Prof. Marcus F. Oliveira (IBqM/UFRJ).\nEscopo: burocracia na UFRJ/CCS/IBqM usando dados PÚBLICOS (Lattes, ORCID, Transparência).\nIA: RPA de formulários, parsing Lattes/ORCID, minutas de e-mail e ofícios.\nUsar SOMENTE dados públicos; SEMPRE entregar como minuta para revisão humana. Responda em português.`}
+];
+
+const state={};
+AGENTS.forEach(a=>{state[a.id]={history:[],attachments:[]}});
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
+function escA(s){return String(s).replace(/"/g,'&quot;')}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),1700)}
+
+function addAttachment(id,label,type,content){state[id].attachments.push({label,type,content});renderPills(id)}
+function removeAttachment(id,i){state[id].attachments.splice(i,1);renderPills(id)}
+function renderPills(id){
+  const el=document.getElementById('pills-'+id);if(!el)return;el.innerHTML='';
+  state[id].attachments.forEach((a,i)=>{
+    const p=document.createElement('div');p.className='a-pill';
+    p.innerHTML=`<span class="a-type">${a.type}</span><span class="a-label" title="${escA(a.label)}">${esc(a.label.length>28?a.label.slice(0,26)+'…':a.label)}</span><button class="a-del" title="Remover">×</button>`;
+    p.querySelector('.a-del').addEventListener('click',()=>removeAttachment(id,i));
+    el.appendChild(p);
+  });
+}
+function buildAttachContext(id){
+  const atts=state[id].attachments;if(!atts.length)return'';
+  let ctx='\n\n--- MATERIAIS ANEXADOS ---\n';
+  atts.forEach((a,i)=>{ctx+=`\n[${i+1}] ${a.type.toUpperCase()}: ${a.label}\n`;if(a.content)ctx+=a.content+'\n';});
+  return ctx+'--- FIM DOS ANEXOS ---';
+}
+function readAsText(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.onerror=rej;r.readAsText(f)})}
+function readAsBase64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>res(e.target.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f)})}
+
+async function callClaude(agentId,userMsg,sys){
+  if(!API_KEY){showToast('⚠️ Insira sua API key primeiro');throw new Error('no key');}
+  const hist=state[agentId].history;
+  const ctx=buildAttachContext(agentId);
+  hist.push({role:'user',content:userMsg+(ctx?'\n'+ctx:'')});
+  const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:hist.slice(-12)})
+  });
+  const data=await resp.json();
+  if(data.error){throw new Error(data.error.message||'API error');}
+  const text=data.content?.map(b=>b.type==='text'?b.text:'').join('')||'(sem resposta)';
+  hist.push({role:'assistant',content:text});
+  return text;
+}
+
+function buildCard(a){
+  const div=document.createElement('div');
+  div.className='card'+(a.core?' core':'');
+  div.style.setProperty('--ac',a.ac);
+  div.innerHTML=`
+    <div class="card-head">
+      <div class="glyph">${a.glyph}</div>
+      <div class="num">Agente ${a.num} · ${a.area}</div>
+      <div class="name">${a.name}</div>
+      <div class="role">${a.role}</div>
+    </div>
+    <div class="card-body">
+      <div class="tag">${a.tag}</div>
+      <div class="chips">${a.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>
+      <div class="desc">${a.desc}</div>
+      <div class="blk">IA dedicada</div>
+      <div class="ai-box">${a.ai.map(r=>`<div class="ai-row"><span class="k">${r.k}</span><span>${r.v}</span></div>`).join('')}</div>
+      <div class="attach-section">
+        <div class="attach-label">Anexar ao prompt</div>
+        <div class="attach-bar">
+          <button class="att-btn" id="btn-link-${a.id}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Link / URL</button>
+          <button class="att-btn" id="btn-pdf-${a.id}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF / Doc</button>
+          <button class="att-btn" id="btn-img-${a.id}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Imagem</button>
+          <button class="att-btn" id="btn-txt-${a.id}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>Texto / CSV</button>
+          <button class="att-btn" id="btn-note-${a.id}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Nota livre</button>
+        </div>
+        <div class="link-row" id="link-row-${a.id}">
+          <input class="link-input" id="link-inp-${a.id}" type="url" placeholder="https://…" autocomplete="off"/>
+          <button class="link-add" id="link-ok-${a.id}">Adicionar</button>
+        </div>
+        <div class="link-row" id="note-row-${a.id}" style="align-items:stretch">
+          <textarea class="link-input" id="note-inp-${a.id}" placeholder="Nota ou instrução adicional…" rows="2" style="resize:vertical;min-height:50px"></textarea>
+          <button class="link-add" id="note-ok-${a.id}">Adicionar</button>
+        </div>
+        <div class="attach-pills" id="pills-${a.id}"></div>
+      </div>
+      <div class="chat-section">
+        <div class="chat-label">Chat com ${a.name}</div>
+        <div class="examples-row">${a.examples.map(e=>`<button class="ex-chip">${e.length>58?e.slice(0,56)+'…':e}</button>`).join('')}</div>
+        <div class="msgs" id="msgs-${a.id}"></div>
+        <div class="chat-form">
+          <textarea class="chat-input" id="inp-${a.id}" placeholder="Pergunte a ${a.name}…" rows="1"></textarea>
+          <button class="send-btn" id="sbtn-${a.id}">Enviar</button>
+        </div>
+        <button class="prompt-toggle" id="ptog-${a.id}">Ver prompt de sistema</button>
+        <pre class="sys-pre" id="pre-${a.id}">${a.sys}</pre>
+      </div>
+    </div>
+    <input type="file" id="fi-pdf-${a.id}" accept=".pdf,.doc,.docx,.txt,.md,.csv,.xlsx"/>
+    <input type="file" id="fi-img-${a.id}" accept="image/*"/>
+    <input type="file" id="fi-txt-${a.id}" accept=".txt,.csv,.md,.py,.json,.tsv"/>
+  `;
+
+  const linkRow=div.querySelector(`#link-row-${a.id}`);
+  const noteRow=div.querySelector(`#note-row-${a.id}`);
+  div.querySelector(`#btn-link-${a.id}`).addEventListener('click',()=>{linkRow.classList.toggle('open');noteRow.classList.remove('open')});
+  div.querySelector(`#link-ok-${a.id}`).addEventListener('click',()=>{
+    const v=div.querySelector(`#link-inp-${a.id}`).value.trim();
+    if(!v){showToast('URL inválida');return;}
+    addAttachment(a.id,v,'link',`URL: ${v}`);div.querySelector(`#link-inp-${a.id}`).value='';linkRow.classList.remove('open');showToast('Link adicionado ✓');
+  });
+  div.querySelector(`#btn-note-${a.id}`).addEventListener('click',()=>{noteRow.classList.toggle('open');linkRow.classList.remove('open')});
+  div.querySelector(`#note-ok-${a.id}`).addEventListener('click',()=>{
+    const v=div.querySelector(`#note-inp-${a.id}`).value.trim();if(!v)return;
+    addAttachment(a.id,v.slice(0,60)+(v.length>60?'…':''),'nota',v);div.querySelector(`#note-inp-${a.id}`).value='';noteRow.classList.remove('open');showToast('Nota adicionada ✓');
+  });
+  div.querySelector(`#btn-pdf-${a.id}`).addEventListener('click',()=>div.querySelector(`#fi-pdf-${a.id}`).click());
+  div.querySelector(`#fi-pdf-${a.id}`).addEventListener('change',async e=>{
+    const f=e.target.files[0];if(!f)return;
+    try{let c=f.name.match(/\.(txt|md|csv|tsv|json|py)$/i)?await readAsText(f):`[arquivo binário: ${f.name} — ${(f.size/1024).toFixed(1)} KB]`;addAttachment(a.id,f.name,'pdf/doc',c.slice(0,8000));showToast(`${f.name} anexado ✓`);}
+    catch{showToast('Erro ao ler arquivo');}e.target.value='';
+  });
+  div.querySelector(`#btn-img-${a.id}`).addEventListener('click',()=>div.querySelector(`#fi-img-${a.id}`).click());
+  div.querySelector(`#fi-img-${a.id}`).addEventListener('change',async e=>{
+    const f=e.target.files[0];if(!f)return;
+    try{const b=await readAsBase64(f);addAttachment(a.id,f.name,'imagem',`[imagem ${f.type} base64: ${b.slice(0,60)}… ${(f.size/1024).toFixed(1)} KB]`);showToast(`${f.name} anexado ✓`);}
+    catch{showToast('Erro ao ler imagem');}e.target.value='';
+  });
+  div.querySelector(`#btn-txt-${a.id}`).addEventListener('click',()=>div.querySelector(`#fi-txt-${a.id}`).click());
+  div.querySelector(`#fi-txt-${a.id}`).addEventListener('change',async e=>{
+    const f=e.target.files[0];if(!f)return;
+    try{const c=await readAsText(f);addAttachment(a.id,f.name,'texto/csv',c.slice(0,8000));showToast(`${f.name} anexado ✓`);}
+    catch{showToast('Erro ao ler arquivo');}e.target.value='';
+  });
+
+  const msgsEl=div.querySelector(`#msgs-${a.id}`);
+  const inp=div.querySelector(`#inp-${a.id}`);
+  const sbtn=div.querySelector(`#sbtn-${a.id}`);
+  function appendMsg(role,text){
+    const d=document.createElement('div');d.className=`msg ${role}`;
+    if(role==='bot')d.innerHTML=`<div class="ntag" style="color:${a.ac}">${a.name}</div>${esc(text)}`;
+    else d.textContent=text;
+    msgsEl.appendChild(d);msgsEl.scrollTop=msgsEl.scrollHeight;return d;
+  }
+  async function send(text){
+    if(!text.trim())return;
+    inp.value='';inp.style.height='';sbtn.disabled=true;
+    const atts=state[a.id].attachments;
+    appendMsg('user',text+(atts.length?` [+${atts.length} anexo${atts.length>1?'s':''}]`:''));
+    const thinking=appendMsg('bot','…');thinking.classList.add('thinking');
+    try{
+      const reply=await callClaude(a.id,text,a.sys);
+      thinking.classList.remove('thinking');
+      thinking.innerHTML=`<div class="ntag" style="color:${a.ac}">${a.name}</div>${esc(reply)}`;
+    }catch(err){thinking.classList.remove('thinking');thinking.textContent='Erro: '+err.message;}
+    sbtn.disabled=false;
+  }
+  sbtn.addEventListener('click',()=>send(inp.value));
+  inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send(inp.value);}});
+  inp.addEventListener('input',()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,110)+'px';});
+  div.querySelectorAll('.ex-chip').forEach((c,i)=>c.addEventListener('click',()=>send(a.examples[i])));
+  const ptog=div.querySelector(`#ptog-${a.id}`);
+  const pre=div.querySelector(`#pre-${a.id}`);
+  ptog.addEventListener('click',()=>{const o=pre.classList.toggle('open');ptog.textContent=o?'Ocultar prompt':'Ver prompt de sistema';});
+  pre.addEventListener('click',()=>navigator.clipboard.writeText(pre.textContent.trim()).then(()=>showToast('prompt copiado ✓')));
+  return div;
+}
+
+const grid=document.getElementById('agentGrid');
+AGENTS.forEach(a=>grid.appendChild(buildCard(a)));
+</script>
+</body>
+</html>
